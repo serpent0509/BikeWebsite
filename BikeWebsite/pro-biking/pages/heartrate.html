@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Rate Zones - Pro Biking</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        function calculateHeartRateZones() {
+            const age = parseInt(document.getElementById('age').value);
+
+            if (isNaN(age) || age <= 0) {
+                document.getElementById('hr-result').innerText = "Please enter a valid age.";
+                return;
+            }
+
+            // Calculate max heart rate using the formula: 220 - age
+            const maxHeartRate = 220 - age;
+
+            // Define heart rate zones
+            const zones = [
+                { name: "Zone 1: Recovery", range: [0.5, 0.6], description: "Helps with recovery and warm-up." },
+                { name: "Zone 2: Endurance", range: [0.6, 0.7], description: "Improves basic endurance and fat burning." },
+                { name: "Zone 3: Tempo / Sweet Spot", range: [0.7, 0.8], description: "Enhances aerobic capacity and endurance." },
+                { name: "Zone 4: Threshold", range: [0.8, 0.9], description: "Increases maximum performance capacity." },
+                { name: "Zone 5: VO2 Max", range: [0.9, 1.0], description: "Develops maximum effort and speed." }
+            ];
+
+            // Generate heart rate zones based on max heart rate
+            let result = `Your Maximum Heart Rate: ${maxHeartRate} bpm\n\nHeart Rate Zones:\n`;
+            zones.forEach(zone => {
+                const lowerBound = Math.round(maxHeartRate * zone.range[0]);
+                const upperBound = Math.round(maxHeartRate * zone.range[1]);
+                result += `${zone.name} (${lowerBound} - ${upperBound} bpm): ${zone.description}\n`;
+            });
+
+            // Display the result
+            document.getElementById('hr-result').innerText = result;
+        }
+    </script>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </button>
+        <div class="dropdown-content">
+            <a href="../index.html">Home</a>
+            <a href="ftp.html">FTP</a>
+            <a href="wpk.html">WPK</a>
+            <a href="lactatethreshold.html">Lactate Threshold</a>
+            <a href="heartrate.html">Heart Rate</a>
+            <a href="distance.html">Distance</a>
+            <a href="training.html">Training</a>
+            <a href="discounts.html">Discounts</a>
+            <a href="../../Main/AdminConsole.html">Admin Console</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Heart Rate Zone Calculator</h1>
+        <p>Enter your age to calculate your maximum heart rate and heart rate zones.</p>
+        <label for="age">Age:</label>
+        <input type="number" id="age" placeholder="Enter your age">
+        <br>
+        <button class="run-button" onclick="calculateHeartRateZones()">Calculate Heart Rate Zones</button>
+        <pre id="hr-result"></pre>
+    </div>
+</body>
+</html>

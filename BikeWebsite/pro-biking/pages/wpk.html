@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watts Per Kilo - Pro Biking</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        function calculateWPK() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const ftp = parseFloat(document.getElementById('ftp').value);
+
+            if (isNaN(weight) || isNaN(ftp) || weight <= 0 || ftp <= 0) {
+                document.getElementById('wpk-result').innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            const wpk = (ftp / weight).toFixed(2);
+
+            // Define power zones based on FTP
+            const zones = [
+                { name: "Zone 1: Active Recovery", range: [0, 0.55], description: "Very easy effort for recovery." },
+                { name: "Zone 2: Endurance", range: [0.56, 0.75], description: "Steady effort for long rides." },
+                { name: "Zone 3: Tempo", range: [0.76, 0.90], description: "Moderate effort for sustained power." },
+                { name: "Zone 4: Threshold", range: [0.91, 1.05], description: "Hard effort near FTP." },
+                { name: "Zone 5: VO2 Max", range: [1.06, 1.20], description: "Very hard effort for short intervals." },
+                { name: "Zone 6: Anaerobic", range: [1.21, 1.50], description: "Maximum effort for sprints." },
+                { name: "Zone 7: Neuromuscular", range: [1.51, Infinity], description: "All-out effort for very short bursts." }
+            ];
+
+            let result = `Your Watts Per Kilo (WPK): ${wpk} W/kg\n\nPower Zones:\n`;
+            zones.forEach(zone => {
+                const lowerBound = Math.round(ftp * zone.range[0]);
+                const upperBound = zone.range[1] === Infinity ? "∞" : Math.round(ftp * zone.range[1]);
+                result += `${zone.name} (${lowerBound} - ${upperBound} watts): ${zone.description}\n`;
+            });
+
+            document.getElementById('wpk-result').innerText = result;
+        }
+    </script>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </button>
+        <div class="dropdown-content">
+            <a href="../index.html">Home</a>
+            <a href="ftp.html">FTP</a>
+            <a href="wpk.html">WPK</a>
+            <a href="lactatethreshold.html">Lactate Threshold</a>
+            <a href="heartrate.html">Heart Rate</a>
+            <a href="distance.html">Distance</a>
+            <a href="training.html">Training</a>
+            <a href="discounts.html">Discounts</a>
+            <a href="../../AdminConsole.html">Admin Console</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Watts Per Kilo (WPK) Calculator</h1>
+        <p>Enter your weight and FTP to calculate your WPK and power zones.</p>
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" placeholder="Enter your weight in kg">
+        <br>
+        <label for="ftp">FTP (watts):</label>
+        <input type="number" id="ftp" placeholder="Enter your FTP">
+        <br>
+        <button class="run-button" onclick="calculateWPK()">Calculate WPK</button>
+        <pre id="wpk-result"></pre>
+    </div>
+</body>
+</html>

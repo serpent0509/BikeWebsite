@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FTP Calculator - Pro Biking</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        function calculateFTP() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const power = parseFloat(document.getElementById('power').value);
+            const duration = document.getElementById('duration').value;
+
+            if (isNaN(weight) || isNaN(power)) {
+                document.getElementById('ftp-result').innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            let ftp = 0;
+            if (duration === "20") {
+                ftp = power * 0.95; // 20-minute power formula
+            } else if (duration === "60") {
+                ftp = power; // 60-minute power is already FTP
+            }
+
+            const wpk = (ftp / weight).toFixed(2); // Watts per kilogram
+            document.getElementById('ftp-result').innerText = `Your FTP is ${ftp.toFixed(2)} watts. WPK: ${wpk} W/kg.`;
+        }
+    </script>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </button>
+        <div class="dropdown-content">
+            <a href="../index.html">Home</a>
+            <a href="ftp.html">FTP</a>
+            <a href="wpk.html">WPK</a>
+            <a href="lactatethreshold.html">Lactate Threshold</a>
+            <a href="heartrate.html">Heart Rate</a>
+            <a href="distance.html">Distance</a>
+            <a href="training.html">Training</a>
+            <a href="discounts.html">Discounts</a>
+            <a href="../../Main/AdminConsole.html">Admin Console</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>FTP Calculator</h1>
+        <p>Enter your weight and your best 20-minute or 60-minute power to calculate your FTP.</p>
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" placeholder="Enter your weight in kg">
+        <br>
+        <label for="power">Best Power (watts):</label>
+        <input type="number" id="power" placeholder="Enter your best power">
+        <br>
+        <label for="duration">Duration:</label>
+        <select id="duration">
+            <option value="20">20 minutes</option>
+            <option value="60">60 minutes</option>
+        </select>
+        <br>
+        <button class="run-button" onclick="calculateFTP()">Calculate FTP</button>
+        <p id="ftp-result"></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Console</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .admin-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        textarea {
+            width: 80%;
+            height: 150px;
+            margin-bottom: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #1a1a2e;
+            color: #eaeaea;
+        }
+
+        .run-button {
+            background-color: #0f3460;
+            color: #eaeaea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .run-button:hover {
+            background-color: #1f4068;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Admin Console</h1>
+        <textarea id="code" placeholder="Write your JavaScript code here..."></textarea>
+        <button class="run-button" onclick="runCode()">Run</button>
+        <button class="run-button" onclick="displayStructure()">Display Website Structure</button>
+        <textarea id="logs" readonly placeholder="Logs will appear here..."></textarea>
+    </div>
+
+    <script>
+        // Check if the user is already authenticated
+        if (!localStorage.getItem('isAdminAuthenticated')) {
+            const password = prompt("Enter admin password:");
+
+            if (password !== "2252") {
+                alert("Incorrect password! Access denied.");
+                document.body.innerHTML = "<h1 style='color: red; text-align: center; margin-top: 50px;'>Access Denied</h1>";
+                throw new Error("Access Denied");
+            }
+
+            // Store authentication state in localStorage
+            localStorage.setItem('isAdminAuthenticated', 'true');
+        }
+
+        const logsTextarea = document.getElementById('logs');
+
+        // Override console methods to capture logs
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+
+        console.log = function(message) {
+            logsTextarea.value += '[LOG] ' + message + '\n';
+            originalConsoleLog.apply(console, arguments);
+        };
+
+        console.error = function(message) {
+            logsTextarea.value += '[ERROR] ' + message + '\n';
+            originalConsoleError.apply(console, arguments);
+        };
+
+        function runCode() {
+            const textarea = document.getElementById('code');
+            const code = textarea.value;
+
+            // Clear previous logs
+            logsTextarea.value = '';
+
+            try {
+                const result = eval(code);
+                if (result !== undefined) {
+                    console.log(result);
+                }
+                alert('Code executed successfully. Check logs for output.');
+            } catch (error) {
+                console.error('Error: ' + error.message);
+                alert('Error executing code: ' + error.message);
+            }
+        }
+
+        function displayStructure() {
+            const structure = `
+pro-biking/
+├── assets/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   ├── script.js
+│   │   ├── adminconsole.js
+│   └── images/
+├── pages/
+│   ├── distance.html
+│   ├── discounts.html
+│   ├── ftp.html
+│   ├── heartrate.html
+│   ├── lactatethreshold.html
+│   ├── training.html
+│   └── wpk.html
+├── index.html
+├── README.md
+            `;
+            logsTextarea.value += '[LOG] Website Structure:\n' + structure + '\n';
+        }
+    </script>
+</body>
+</html>

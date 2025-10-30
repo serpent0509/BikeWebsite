@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lactate Threshold - Pro Biking</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        function calculateLactateThreshold() {
+            const avgPower = parseFloat(document.getElementById('avg-power').value);
+            const avgHeartRate = parseFloat(document.getElementById('avg-heart-rate').value);
+    
+            if (isNaN(avgPower) || isNaN(avgHeartRate) || avgPower <= 0 || avgHeartRate <= 0) {
+                document.getElementById('lt-result').innerText = "Please enter valid numbers.";
+                return;
+            }
+    
+            const ltPower = (avgPower * 0.95).toFixed(2); // 95% of average power
+            const ltHeartRate = avgHeartRate.toFixed(2); // Average heart rate
+    
+            document.getElementById('lt-result').innerText = `
+                Your Lactate Threshold Power: ${ltPower} watts
+                Your Lactate Threshold Heart Rate: ${ltHeartRate} bpm
+            `;
+        }
+    </script>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </button>
+        <div class="dropdown-content">
+            <a href="../index.html">Home</a>
+            <a href="ftp.html">FTP</a>
+            <a href="wpk.html">WPK</a>
+            <a href="lactatethreshold.html">Lactate Threshold</a>
+            <a href="heartrate.html">Heart Rate</a>
+            <a href="distance.html">Distance</a>
+            <a href="training.html">Training</a>
+            <a href="discounts.html">Discounts</a>
+            <a href="../../AdminConsole.html">Admin Console</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Lactate Threshold Calculator</h1>
+        <p>Enter your average power and heart rate during a 30-minute time trial.</p>
+        <label for="avg-power">Average Power (watts):</label>
+        <input type="number" id="avg-power" placeholder="Enter your average power">
+        <br>
+        <label for="avg-heart-rate">Average Heart Rate (bpm):</label>
+        <input type="number" id="avg-heart-rate" placeholder="Enter your average heart rate">
+        <br>
+        <button class="run-button" onclick="calculateLactateThreshold()">Calculate Lactate Threshold</button>
+        <pre id="lt-result"></pre>
+    </div>
+</body>
+</html>

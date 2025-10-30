@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Plan - Pro Biking</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        function addTrainingPlan() {
+            const date = document.getElementById('date').value;
+            const plan = document.getElementById('plan').value;
+
+            if (!date || !plan) {
+                alert("Please enter both a date and a training plan.");
+                return;
+            }
+
+            const entry = document.createElement('li');
+            entry.innerText = `${date}: ${plan}`;
+            document.getElementById('training-list').appendChild(entry);
+
+            document.getElementById('date').value = '';
+            document.getElementById('plan').value = '';
+        }
+
+        function displayIntervals() {
+            const workoutType = document.getElementById('workout-type').value;
+            const intervals = {
+                sprints: [
+                    "6x 30 seconds all-out, 4 minutes recovery",
+                    "10x 15 seconds sprint, 45 seconds recovery",
+                    "5x 1 minute hard, 3 minutes recovery"
+                ],
+                climbs: [
+                    "4x 8 minutes at threshold, 5 minutes recovery",
+                    "3x 12 minutes at 90% FTP, 6 minutes recovery",
+                    "6x 5 minutes at VO2 max, 5 minutes recovery"
+                ],
+                vo2max: [
+                    "5x 3 minutes at 110% FTP, 3 minutes recovery",
+                    "6x 4 minutes at 105% FTP, 4 minutes recovery",
+                    "8x 2 minutes at 120% FTP, 2 minutes recovery"
+                ],
+                attacks: [
+                    "10x 1 minute at 150% FTP, 2 minutes recovery",
+                    "8x 2 minutes at 130% FTP, 3 minutes recovery",
+                    "12x 30 seconds all-out, 1 minute recovery"
+                ]
+            };
+
+            const selectedIntervals = intervals[workoutType] || [];
+            const intervalList = document.getElementById('interval-list');
+            intervalList.innerHTML = "";
+
+            selectedIntervals.forEach(interval => {
+                const li = document.createElement('li');
+                li.innerText = interval;
+                intervalList.appendChild(li);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </button>
+        <div class="dropdown-content">
+            <a href="../index.html">Home</a>
+            <a href="ftp.html">FTP</a>
+            <a href="wpk.html">WPK</a>
+            <a href="lactatethreshold.html">Lactate Threshold</a>
+            <a href="heartrate.html">Heart Rate</a>
+            <a href="distance.html">Distance</a>
+            <a href="training.html">Training</a>
+            <a href="discounts.html">Discounts</a>
+            <a href="../../AdminConsole.html">Admin Console</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Training Plan</h1>
+        <p>Add your training plans to the calendar.</p>
+        <label for="date">Date:</label>
+        <input type="date" id="date">
+        <br>
+        <label for="plan">Training Plan:</label>
+        <input type="text" id="plan" placeholder="Enter your training plan">
+        <br>
+        <button class="run-button" onclick="addTrainingPlan()">Add Training Plan</button>
+        <ul id="training-list"></ul>
+
+        <h2>Interval Workouts</h2>
+        <label for="workout-type">Select Workout Type:</label>
+        <select id="workout-type" onchange="displayIntervals()">
+            <option value="">-- Select --</option>
+            <option value="sprints">Sprints</option>
+            <option value="climbs">Climbs</option>
+            <option value="vo2max">VO2 Max</option>
+            <option value="attacks">Attacks</option>
+        </select>
+        <ul id="interval-list"></ul>
+    </div>
+</body>
+</html>

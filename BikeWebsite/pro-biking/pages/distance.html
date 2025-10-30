@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distance Estimator - Pro Biking</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        function calculateTime() {
+            const distance = parseFloat(document.getElementById('distance').value);
+            const speed = parseFloat(document.getElementById('speed').value);
+
+            if (isNaN(distance) || isNaN(speed) || speed <= 0) {
+                document.getElementById('time-result').innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            const time = distance / speed; // Time = Distance / Speed
+            const hours = Math.floor(time);
+            const minutes = Math.round((time - hours) * 60);
+
+            document.getElementById('time-result').innerText = `Estimated Time: ${hours} hours and ${minutes} minutes.`;
+        }
+    </script>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </button>
+        <div class="dropdown-content">
+            <a href="../index.html">Home</a>
+            <a href="ftp.html">FTP</a>
+            <a href="wpk.html">WPK</a>
+            <a href="lactatethreshold.html">Lactate Threshold</a>
+            <a href="heartrate.html">Heart Rate</a>
+            <a href="distance.html">Distance</a>
+            <a href="training.html">Training</a>
+            <a href="discounts.html">Discounts</a>
+            <a href="../../Main/AdminConsole.html">Admin Console</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Distance Estimator</h1>
+        <p>Enter the distance in miles and adjust the slider for average speed to estimate the time.</p>
+        <label for="distance">Distance (miles):</label>
+        <input type="number" id="distance" placeholder="Enter distance in miles">
+        <br>
+        <label for="speed">Average Speed (mph):</label>
+        <input type="range" id="speed" min="5" max="50" step="1" oninput="document.getElementById('speed-value').innerText = this.value">
+        <span id="speed-value">25</span> mph
+        <br>
+        <button class="run-button" onclick="calculateTime()">Calculate Time</button>
+        <p id="time-result"></p>
+    </div>
+</body>
+</html>
